@@ -15,18 +15,4 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - name: Update Cargo
-        run: rustup update
-      - name: Install toolchain
-        run: rustup toolchain install stable --profile minimal
-      - name: Install coverage tool
-        run: cargo install cargo-tarpaulin
-      - uses: Swatinem/rust-cache@v2
-      - name: Run tests
-        run: cargo tarpaulin -o Stdout -o Html
-      - name: Archive code coverage result
-        uses: actions/upload-artifact@v4
-        with:
-          name: code-coverage-report
-          path: tarpaulin-report.html
+      - uses: ./reusable/tests.yml
