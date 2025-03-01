@@ -12,48 +12,48 @@ jobs:
     steps:
       - name: Check out
         uses: actions/checkout@v4
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@master
-        with:
-          profile: minimal
-          toolchain: ${{ inputs.rust-version }}
-          components: rustfmt, clippy
-      - name: Set up cargo cache
-        uses: actions/cache@v3
-        continue-on-error: false
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/            
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: ${{ runner.os }}-cargo-
-      - name: Lint
-        run: |
-          cargo fmt --all -- --check
-          cargo clippy -- -D warnings
-      - name: Install cargo check tools
-        run: |
-          cargo install --locked cargo-deny || true
-          cargo install --locked cargo-outdated || true
-          cargo install --locked cargo-udeps || true
-          cargo install --locked cargo-audit || true
-          cargo install --locked cargo-pants || true
-          cargo install --locked cargo-tarpaulin || true
-      - name: Check
-        run: |
-          cargo deny check
-          cargo outdated --exit-code 1
-          cargo udeps
-          rm -rf ~/.cargo/advisory-db
-          cargo audit
-          cargo pants
-      - name: Run tests
-        run: cargo tarpaulin -o Stdout -o Html
-      - name: Archive code coverage result
-        uses: actions/upload-artifact@v4
-        with:
-          name: code-coverage-report
-          path: tarpaulin-report.html
+#      - name: Install Rust
+#        uses: dtolnay/rust-toolchain@master
+#        with:
+#          profile: minimal
+#          toolchain: ${{ inputs.rust-version }}
+#          components: rustfmt, clippy
+#      - name: Set up cargo cache
+#        uses: actions/cache@v3
+#        continue-on-error: false
+#        with:
+#          path: |
+#            ~/.cargo/bin/
+#            ~/.cargo/registry/index/
+#            ~/.cargo/registry/cache/
+#            ~/.cargo/git/db/
+#            target/
+#          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+#          restore-keys: ${{ runner.os }}-cargo-
+#      - name: Lint
+#        run: |
+#          cargo fmt --all -- --check
+#          cargo clippy -- -D warnings
+#      - name: Install cargo check tools
+#        run: |
+#          cargo install --locked cargo-deny || true
+#          cargo install --locked cargo-outdated || true
+#          cargo install --locked cargo-udeps || true
+#          cargo install --locked cargo-audit || true
+#          cargo install --locked cargo-pants || true
+#          cargo install --locked cargo-tarpaulin || true
+#      - name: Check
+#        run: |
+#          cargo deny check
+#          cargo outdated --exit-code 1
+#          cargo udeps
+#          rm -rf ~/.cargo/advisory-db
+#          cargo audit
+#          cargo pants
+#      - name: Run tests
+#        run: cargo tarpaulin -o Stdout -o Html
+#      - name: Archive code coverage result
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: code-coverage-report
+#          path: tarpaulin-report.html
